@@ -6,11 +6,15 @@ import cookieParser from "cookie-parser";
 import { serverENV } from "./config/env";
 import { corsOptions } from "./config/config";
 import { Logger } from "./infrastructure/logger/Logger";
+import { Database } from "./infrastructure/db/Database";
 
 config();
 
 const app: Express.Application = Express();
 const server: http.Server = http.createServer(app);
+
+const database: Database = Database.getInstance();
+database.Initialize();
 
 app.use(Logger.httpMiddleware());
 app.use(cors(corsOptions));
