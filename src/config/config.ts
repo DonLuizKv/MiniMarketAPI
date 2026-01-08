@@ -1,4 +1,3 @@
-// asignar configuraciones del backend (cors, ratelimit, etc etc)
 
 import { Time } from "../infrastructure/utils/utils";
 import { serverENV } from "./env";
