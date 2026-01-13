@@ -38,7 +38,7 @@ export class ${className}Module {
         `import { Router } from "express";
 import { ${className}Service } from "./${name}.service";\n
 export class ${className}Controller {
-    public router = Router();
+    public router = Router();\n
     constructor(private service: ${className}Service) {
         this.router.get("/", );
     }
