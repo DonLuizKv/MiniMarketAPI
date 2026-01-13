@@ -31,9 +31,8 @@ app.use("/test", (req: Request, res: Response) => {
     res.send("holaaaaaaaaaaaa")
 })
 
-app.use(Express.static(path.join(__dirname, '../public')));
 app.use("/", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"))
+    res.send("Welcome to the MiniMarket API")
 })
 
 server.listen(serverENV.PORT, () => {
