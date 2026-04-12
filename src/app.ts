@@ -2,7 +2,7 @@ import http from "http";
 import { loadDatabase, loadExpress, loadHttpServer, loadWebSockets } from "./loaders";
 import { ExpressServer } from "./infrastructure/express/express.server";
 import { Database } from "./infrastructure/db/Database";
-import { WebSocketServer } from "./infrastructure/sockets/WebSocketServer";
+import { WebSocketServer } from "./infrastructure/sockets/WebSocket.server";
 
 interface AppConfig {
     port: number;

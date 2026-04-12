@@ -1,7 +1,8 @@
 import { Server as HTTPServer } from 'http';
 import { Server, Socket } from "socket.io";
 import { Logger } from '../logger/Logger';
-import { ActiveUsers } from '../types/websocket';
+import { ActiveUsers } from './websocket';
+import { Dispatcher } from './Dispatcher';
 
 export class WebSocketServer {
     private static instance: WebSocketServer;
@@ -56,6 +57,9 @@ export class WebSocketServer {
         this.io.on('connection', (socket: Socket) => {
             Logger.socket(`Client connected: ${socket.id}`);
             this.registerUser(socket.id, socket.id);
+
+            const dispatcher = new Dispatcher(this.io, socket);
+            dispatcher.init();
 
             socket.on('disconnect', () => {
                 this.removeUser(socket.id, socket.id);

@@ -1,6 +1,6 @@
 import http from "http";
 import { Database } from "./infrastructure/db/Database";
-import { WebSocketServer } from "./infrastructure/sockets/WebSocketServer";
+import { WebSocketServer } from "./infrastructure/sockets/WebSocket.server";
 import { ExpressServer } from "./infrastructure/express/express.server";
 
 export async function loadDatabase() {
