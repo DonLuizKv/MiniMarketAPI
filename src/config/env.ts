@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { Errors } from "../infra/lib/ErrorManager";
+import { Errors } from "../infrastructure/errors/ErrorManager";
 
 config();
 
@@ -12,7 +12,7 @@ export const Env = {
 
     DB: {
         HOST: required("DB_HOST"),
-        PORT: number("DB_PORT", 5432),
+        PORT: number("DB_PORT"),
         USER: required("DB_USER"),
         PASSWORD: required("DB_PASSWORD"),
         NAME: required("DB_NAME"),
@@ -21,14 +21,8 @@ export const Env = {
     JWT: {
         ACCESS_SECRET: required("JWT_ACCESS_SECRET"),
         REFRESH_SECRET: required("JWT_REFRESH_SECRET"),
-        ACCESS_EXPIRES_IN: number("JWT_ACCESS_EXPIRES_IN", 60 * 60 * 24 * 7),
-        REFRESH_EXPIRES_IN: number("JWT_REFRESH_EXPIRES_IN", 60 * 60 * 24 * 30),
-    },
-
-    Cloudinary: {
-        CLOUD_NAME: required("CLOUDINARY_CLOUD_NAME"),
-        API_KEY: required("CLOUDINARY_API_KEY"),
-        API_SECRET: required("CLOUDINARY_API_SECRET"),
+        ACCESS_EXPIRES_IN: expiresIn("JWT_ACCESS_EXPIRES_IN"),
+        REFRESH_EXPIRES_IN: expiresIn("JWT_REFRESH_EXPIRES_IN"),
     },
 
     // Mail: {
@@ -70,4 +64,32 @@ function list(name: string, defaultValue: string[] = []): string[] {
     const value = process.env[name];
     if (!value) return defaultValue;
     return value.split(",").map(v => v.trim());
+}
+
+function expiresIn(name: string, defaultValue?: string | number): string | number {
+    const value = process.env[name];
+
+    if (!value) {
+        if (defaultValue === undefined) {
+            throw Errors.INTERNAL_SERVER_ERROR(`Missing environment variable: ${name}`);
+        }
+        return defaultValue;
+    }
+
+    // Si es número válido → ok
+    const asNumber = Number(value);
+    if (!Number.isNaN(asNumber)) {
+        return asNumber;
+    }
+
+    // Validar formato tipo "1h", "7d", etc.
+    const regex = /^(\d+)(s|m|h|d)$/;
+
+    if (!regex.test(value)) {
+        throw Errors.INTERNAL_SERVER_ERROR(
+            `Environment variable ${name} must be a number (seconds) or a valid time string (e.g. 1h, 7d)`
+        );
+    }
+
+    return value;
 }
