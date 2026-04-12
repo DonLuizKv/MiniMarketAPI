@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import { Time } from "../../shared/utils";
-import { Errors } from "../../shared/errors";
+import { Errors } from "../../shared/errors/ErrorManager";
 
 export class AuthController {
     constructor(
