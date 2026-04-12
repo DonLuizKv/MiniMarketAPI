@@ -1,5 +1,5 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import { ErrorManager } from "../../errors/ErrorManager";
+import { ErrorManager } from "../../../shared/errors/ErrorManager";
 import { Logger } from "../../logger/Logger";
 
 export const errorHandler: ErrorRequestHandler = (err: ErrorManager, req: Request, res: Response, next: NextFunction) => {

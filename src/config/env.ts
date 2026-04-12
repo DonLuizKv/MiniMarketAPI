@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { Errors } from "../infrastructure/errors/ErrorManager";
+import { Errors } from "../shared/errors/ErrorManager";
 
 config();
 

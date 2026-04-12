@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { Logger } from "../../logger/Logger";
-import { ErrorManager, Errors } from "../../errors/ErrorManager";
+import { ErrorManager, Errors } from "../../../shared/errors/ErrorManager";
 
 export const corsErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof ErrorManager) {

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Errors } from '../../errors/ErrorManager';
+import { Errors } from '../../../shared/errors/ErrorManager';
 import { verifyToken } from '../../jwt/jwt.service';
 import { Env } from '../../../config/env';
 import { Token } from '../../jwt/TokenType';

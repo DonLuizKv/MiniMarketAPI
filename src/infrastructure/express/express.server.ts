@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "path";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { corsErrorHandler } from "./middlewares/cors.middleware";
-import { Errors } from "../errors/ErrorManager";
+import { Errors } from "../../shared/errors/ErrorManager";
 import { Database } from "../db/Database";
 import { Logger } from "../logger/Logger";
 
