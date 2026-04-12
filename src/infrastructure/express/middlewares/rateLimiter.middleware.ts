@@ -1,6 +1,6 @@
 import rateLimit, { RateLimiterMemory } from "rate-limiter-flexible";
 import { Request } from "express";
-import { Time } from "../../utils/utils";
+import { Time } from "../../../shared/utils";
 
 // cuando termine de entender redis y termine de sentar la base del proyecto
 // hago este rate limit

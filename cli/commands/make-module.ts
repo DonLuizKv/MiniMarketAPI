@@ -6,17 +6,17 @@ export function makeModule(name: string) {
         const className = capitalize(name);
         const basePath = path.join(process.cwd(), "src/modules", className);
 
-        console.log(`\x1b[36m🚀 Starting creation of module: \x1b[33m${className}\x1b[0m`);
+        console.log(`\x1b[36mStarting creation of module: \x1b[33m${className}\x1b[0m`);
 
         if (fs.existsSync(basePath)) {
-            console.error(`\x1b[31m❌ Error: The module \x1b[33m${className}\x1b[31m already exists.\x1b[0m`);
+            console.error(`\x1b[31mError: The module \x1b[33m${className}\x1b[31m already exists.\x1b[0m`);
             process.exit(1);
         }
 
-        console.log(`\x1b[34m📂 Creating directories...\x1b[0m`);
+        console.log(`\x1b[34mCreating directories...\x1b[0m`);
         fs.mkdirSync(basePath, { recursive: true });
 
-        console.log(`\x1b[34m📄 Generating files...\x1b[0m`);
+        console.log(`\x1b[34mGenerating files...\x1b[0m`);
 
         fs.writeFileSync(
             path.join(basePath, `${name}.module.ts`),
@@ -45,7 +45,7 @@ export class ${className}Module {
         fs.writeFileSync(
             path.join(basePath, `${name}.routes.ts`),
             `import { Router } from "express";
-import { asyncHandler } from "../../utilities/utils";
+import { asyncHandler } from "../../shared/utils";
 import { ${className}Controller } from "./${name}.controller";\n
 export function create${className}Routes(controller: ${className}Controller) {
     const router = Router();
@@ -74,8 +74,8 @@ export class ${className}Service {
 
         fs.writeFileSync(
             path.join(basePath, `${name}.repository.ts`),
-            `import { Repository } from "../../infra/database/Repository";
-import { Database } from "../../infra/database/Database";\n
+            `import { Repository } from "../../infrastructure/db/Repository";
+import { Database } from "../../infrastructure/db/Database";\n
 export class ${className}Repository extends Repository<unknown> {
     constructor(private db: Database) {
         super("", db);
@@ -118,10 +118,10 @@ export class ${className}Controller {
 }\n`
         );
 
-        console.log(`\x1b[32m✅ Module "${name}" has been created successfully!\x1b[0m`);
-        console.log(`\x1b[36m🎯 Ready to use in: \x1b[33msrc/modules/${className}\x1b[0m\n`);
+        console.log(`\x1b[32mModule "${name}" has been created successfully!\x1b[0m`);
+        console.log(`\x1b[36mReady to use in: \x1b[33msrc/modules/${className}\x1b[0m\n`);
     } catch (error) {
-        console.error(`\x1b[31m❌ Unexpected error while creating module "${name}":\x1b[0m`);
+        console.error(`\x1b[31mUnexpected error while creating module "${name}":\x1b[0m`);
         console.error(error);
         process.exit(1);
     }
