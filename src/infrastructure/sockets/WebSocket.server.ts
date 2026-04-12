@@ -52,7 +52,7 @@ export class WebSocketServer {
     }
 
     Initialize() {
-        Logger.socket("WebSocketServer Server is running", { prefix: "\n" });
+        Logger.socket("WebSocketServer Server is running");
 
         this.io.on('connection', (socket: Socket) => {
             Logger.socket(`Client connected: ${socket.id}`);

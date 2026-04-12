@@ -3,6 +3,7 @@ import { loadDatabase, loadExpress, loadHttpServer, loadWebSockets } from "./loa
 import { ExpressServer } from "./infrastructure/express/express.server";
 import { Database } from "./infrastructure/db/Database";
 import { WebSocketServer } from "./infrastructure/sockets/WebSocket.server";
+import { Logger } from "./infrastructure/logger/Logger";
 
 interface AppConfig {
     port: number;
@@ -26,7 +27,7 @@ export class App {
 
     public start(): void {
         this.httpServer.listen(this.config.port, () => {
-            console.log(`Server running on port ${this.config.port}`);
+            Logger.info(`Server running on port ${this.config.port}`);
         });
     }
 

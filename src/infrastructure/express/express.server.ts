@@ -6,8 +6,6 @@ import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { corsErrorHandler } from "./middlewares/cors.middleware";
 import { Errors } from "../errors/ErrorManager";
 import { Database } from "../db/Database";
-import { AuthModule } from "../../modules/Auth/auth.module";
-import { UsersModule } from "../../modules/Users/users.module";
 import { Logger } from "../logger/Logger";
 
 interface ExpressServerConfig {
