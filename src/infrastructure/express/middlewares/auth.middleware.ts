@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { Token } from '../../types/auth';
-import { Errors } from '../../lib/ErrorManager';
+import { Errors } from '../../errors/ErrorManager';
 import { verifyToken } from '../../jwt/jwt.service';
-import { Env } from '../../../config/Env';
+import { Env } from '../../../config/env';
+import { Token } from '../../jwt/TokenType';
 
 interface AuthenticatedRequest extends Request {
     user?: Token;

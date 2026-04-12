@@ -1,6 +1,6 @@
 import { Pool, QueryResult } from "pg";
 import { Logger } from "../logger/Logger";
-import { dbENV } from "../../config/env";
+import { Env } from "../../config/env";
 
 export class Database {
     private static instance: Database;
@@ -8,11 +8,11 @@ export class Database {
 
     private constructor() {
         this.pool = new Pool({
-            host: dbENV.DB_HOST,
-            user: dbENV.DB_USER,
-            password: dbENV.DB_PASSWORD,
-            database: dbENV.DB_NAME,
-            port: Number(dbENV.DB_PORT),
+            host: Env.DB.HOST,
+            user: Env.DB.USER,
+            password: Env.DB.PASSWORD,
+            database: Env.DB.NAME,
+            port: Number(Env.DB.PORT),
             max: 20,
             idleTimeoutMillis: 30000,
             // connectionTimeoutMillis: 2000,
@@ -109,7 +109,7 @@ export class Database {
     async Initialize(): Promise<void> {
         try {
             const client = await this.pool.connect();
-            Logger.db(`Connected to the ${dbENV.DB_NAME} database`);
+            Logger.db(`Connected to the ${Env.DB.NAME} database`);
             client.release();
         } catch (error) {
             Logger.error(error as Error);
