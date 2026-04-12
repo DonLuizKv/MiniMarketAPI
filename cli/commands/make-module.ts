@@ -2,26 +2,30 @@ import fs from "fs";
 import path from "path";
 
 export function makeModule(name: string) {
-    const className = capitalize(name);
-    const basePath = path.join(process.cwd(), "src/modules", className);
+    try {
+        const className = capitalize(name);
+        const basePath = path.join(process.cwd(), "src/modules", className);
 
-    if (fs.existsSync(basePath)) {
-        console.error("\x1b[31mError, this module already exist.\x1b[0m");
-        process.exit(1);
-    }
+        console.log(`\x1b[36m🚀 Starting creation of module: \x1b[33m${className}\x1b[0m`);
 
-    fs.mkdirSync(basePath, { recursive: true });
+        if (fs.existsSync(basePath)) {
+            console.error(`\x1b[31m❌ Error: The module \x1b[33m${className}\x1b[31m already exists.\x1b[0m`);
+            process.exit(1);
+        }
 
+        console.log(`\x1b[34m📂 Creating directories...\x1b[0m`);
+        fs.mkdirSync(basePath, { recursive: true });
 
-    fs.writeFileSync(
-        path.join(basePath, `${name}.module.ts`),
-        `import { Router } from "express";
+        console.log(`\x1b[34m📄 Generating files...\x1b[0m`);
+
+        fs.writeFileSync(
+            path.join(basePath, `${name}.module.ts`),
+            `import { Router } from "express";
 import { ${className}Repository } from "./${name}.repository";
 import { ${className}Service } from "./${name}.service";
 import { ${className}Controller } from "./${name}.controller";
 import { create${className}Routes } from "./${name}.routes";
 import { Database } from "../../infrastructure/db/Database";\n
-
 interface ${className}Dependences {
     db: Database;
 }
@@ -36,11 +40,11 @@ export class ${className}Module {
         return router;
     }
 }`
-    );
+        );
 
-    fs.writeFileSync(
-        path.join(basePath, `${name}.routes.ts`),
-        `import { Router } from "express";
+        fs.writeFileSync(
+            path.join(basePath, `${name}.routes.ts`),
+            `import { Router } from "express";
 import { asyncHandler } from "../../utilities/utils";
 import { ${className}Controller } from "./${name}.controller";\n
 export function create${className}Routes(controller: ${className}Controller) {
@@ -55,33 +59,33 @@ export function create${className}Routes(controller: ${className}Controller) {
 
     return router;
 }`
-    );
+        );
 
-    fs.writeFileSync(
-        path.join(basePath, `${name}.service.ts`),
-        `import { ${className}Repository } from "./${name}.repository";\n
+        fs.writeFileSync(
+            path.join(basePath, `${name}.service.ts`),
+            `import { ${className}Repository } from "./${name}.repository";\n
 export class ${className}Service {
     constructor(
         private repository: ${className}Repository
     ) {}
 }
 \n`
-    );
+        );
 
-    fs.writeFileSync(
-        path.join(basePath, `${name}.repository.ts`),
-        `import { Repository } from "../../infra/database/Repository";
+        fs.writeFileSync(
+            path.join(basePath, `${name}.repository.ts`),
+            `import { Repository } from "../../infra/database/Repository";
 import { Database } from "../../infra/database/Database";\n
 export class ${className}Repository extends Repository<unknown> {
     constructor(private db: Database) {
         super("", db);
     }
 }\n`
-    );
+        );
 
-    fs.writeFileSync(
-        path.join(basePath, `${name}.controller.ts`),
-        `import { Request, Response } from "express";
+        fs.writeFileSync(
+            path.join(basePath, `${name}.controller.ts`),
+            `import { Request, Response } from "express";
 import { ${className}Service } from "./${name}.service";\n
 export class ${className}Controller {
     constructor(
@@ -112,9 +116,15 @@ export class ${className}Controller {
         
     }
 }\n`
-    );
+        );
 
-    console.log(`\x1b[32mModule "${name}" has been created :).\x1b[0m`);
+        console.log(`\x1b[32m✅ Module "${name}" has been created successfully!\x1b[0m`);
+        console.log(`\x1b[36m🎯 Ready to use in: \x1b[33msrc/modules/${className}\x1b[0m\n`);
+    } catch (error) {
+        console.error(`\x1b[31m❌ Unexpected error while creating module "${name}":\x1b[0m`);
+        console.error(error);
+        process.exit(1);
+    }
 }
 
 function capitalize(str: string) {
